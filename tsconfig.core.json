@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "jsx": "react-jsx", "types": [] },
+  "include": ["src/core", "src/native/bridge.ts"],
+  "exclude": ["node_modules", "src/core/__tests__"]
+}

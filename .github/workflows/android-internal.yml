@@ -1,0 +1,45 @@
+# CI: يبني نسخة Android (Internal Track) عند كل Push — مخطط §3.
+# المالك يثبّتها من Play الداخلي على هاتفه دون أن يلمس Terminal.
+# ملاحظة: يحتاج إعدادًا لمرة واحدة في GitHub (service account + keystore)
+# يقوم به عمرو على MacBook — لا أسرار في هذا المستودع أبدًا.
+name: Android Internal Track
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Binary assets (siren.wav, gradle wrapper jar, debug keystore, launcher
+      # icons) are stored as a base64 tarball (binaries.tar.gz.b64) because
+      # the upload route cannot carry binary files. Restore them before building.
+      - name: Restore binary assets
+        run: python3 scripts/restore-binaries.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      # package-lock.json is in the tree, so `npm install` uses locked versions.
+      - name: Install dependencies
+        run: npm install
+      - name: Type-check shared core
+        run: npm run typecheck
+      - name: Build debug APK
+        run: |
+          cd android
+          ./gradlew assembleDebug
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+      # bundleRelease + الرفع إلى Play Internal Track خطوة لاحقة:
+      # تتطلب release keystore + service-account JSON يُحفظان كـ GitHub Secrets
+      # (لا يُكتبان هنا أبدًا) — يجهّزهما عمرو.

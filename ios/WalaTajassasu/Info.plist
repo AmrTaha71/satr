@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>ستر</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>WalaTajassasu</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>arm64</string>
+	</array>
+	<!-- الحركة واللياقة: تُطلب عند أول تفعيل لإنذار الحركة، لا قبله. -->
+	<key>NSMotionUsageDescription</key>
+	<string>نحتاج الوصول لبيانات الحركة لاكتشاف رفع الهاتف أثناء تفعيل الحماية فقط.</string>
+	<!-- Face ID: لإيقاف الإنذار وإلغاء التسليح ببصمتك دون إدخال رمز أمام الآخرين. -->
+	<key>NSFaceIDUsageDescription</key>
+	<string>نستخدم Face ID لإيقاف الإنذار وإلغاء التسليح ببصمتك دون إدخال رمز أمام الآخرين.</string>
+	<!-- الكاميرا والميكروفون والصور والموقع: لا تُصرَّح في القطعة الأولى.
+	     تُضاف فقط عند بناء الميزة التي تحتاجها (لقطة المتطفل، رسالة صوتية،
+	     خزنة، Geofence) — وبشاشة شرح منفصلة. -->
+	<!-- لا UIBackgroundModes لـ audio أو location لإنذار الحركة — عمدًا. -->
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+</dict>
+</plist>

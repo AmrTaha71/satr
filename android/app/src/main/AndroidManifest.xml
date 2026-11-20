@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- أذونات القطعة الأولى فقط. لا يُطلب أي إذن عند أول فتح؛
+         كل إذن يُطلب في سياقه (مخطط §6). -->
+    <!-- الإشعار الدائم للخدمة الأمامية (Android 13+). -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- الخدمة الأمامية. النوع يُحسم بقراءة وثائق Play الحالية وقت البناء
+         (لا يوجد نوع مخصص لمراقبة الحساسات؛ المرشح specialUse بتبرير).
+         لا dataSync/mediaProcessing لحراسة ليلية. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <!-- الكاميرا والميكروفون والموقع: لا تُصرَّح هنا في القطعة الأولى.
+         تُضاف فقط عند بناء الميزة التي تحتاجها (لقطة المتطفل، رسالة
+         صوتية، Geofence) — وبشاشة شرح منفصلة. -->
+    <!-- لا RECEIVE_BOOT_COMPLETED لإعادة تشغيل الحراسة تلقائيًا. -->
+    <!-- لا REQUEST_IGNORE_BATTERY_OPTIMIZATIONS — Play يمنعه؛
+         يُوجَّه المستخدم لشاشة الإعدادات ليختار بنفسه. -->
+
+    <application
+        android:name=".MainApplication"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".alarm.MotionAlarmService"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <!-- specialUse على Android 14+‎: وثائق Android الرسمية تطلب
+                 إعلان حالة الاستخدام هنا (تُراجَع عند تقديم التطبيق في
+                 Play Console) — كانت مفقودة. -->
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Continuous motion monitoring while the owner has armed the guard, to sound the alarm if the phone is lifted." />
+        </service>
+    </application>
+</manifest>

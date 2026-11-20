@@ -1,0 +1,14 @@
+# Podfile — React Native 0.81 (Bare). يُنفَّذ `pod install` على MacBook.
+require File.join(__dir__, '..', 'node_modules', 'react-native', 'scripts', 'react_native_pods')
+
+platform :ios, '15.1'
+prepare_react_native_project!
+
+target 'WalaTajassasu' do
+  config = use_native_modules!
+  use_react_native!(
+    :path => config[:reactNativePath],
+    :hermes_enabled => true,
+    :fabric_enabled => true,
+  )
+end
