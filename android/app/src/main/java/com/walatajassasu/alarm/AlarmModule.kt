@@ -1,8 +1,8 @@
 package com.walatajassasu.alarm
 
 import android.hardware.SensorEvent
-import android.hardware.biometrics.BiometricPrompt
-import android.os.CancellationSignal
+import androidx.biometric.BiometricPrompt
+import androidx.fragment.app.FragmentActivity
 import android.util.Base64
 import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.Arguments
@@ -126,7 +126,7 @@ class AlarmModule(private val reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun authenticate(reason: String, promise: Promise) {
-        val activity = currentActivity
+        val activity = reactContext.currentActivity as? FragmentActivity
         if (activity == null) {
             promise.reject("NO_ACTIVITY", "لا توجد Activity ظاهرة لعرض نافذة البصمة")
             return
